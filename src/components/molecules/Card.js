@@ -30,7 +30,7 @@ const Card = ({name, handleDeleteList}) => {
                 {
                   text: 'Batal',
                 },
-                {text: 'OK', onPress: () => handleDeleteList},
+                {text: 'OK', onPress: handleDeleteList},
               ])
             }
           />
