@@ -1,10 +1,25 @@
-import {openDatabase} from 'react-native-sqlite-storage';
+import db from "../config/db";
 
-const db = openDatabase({
-  name: 'bekpek',
-  location: 'default',
-});
-
+export const insertList = (name) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        `INSERT INTO lists (name) VALUES (?)`,
+        [name],
+        (sqlTx, res) => {
+          console.log('res', res);
+          console.log(`${name} added successfully`);
+          showLists();
+          resolve({ success: true })
+        },
+        error => {
+          console.log('error db insert list', error.message);
+          reject(error.message);
+        },
+      );
+    });
+  })
+}
 export const createTable = () => {
   db.transaction(tx => {
     tx.executeSql(
@@ -53,7 +68,7 @@ export const showLists = () => {
             let results = [];
             for (let i = 0; i < len; i++) {
               const item = res.rows.item(i);
-              results.push({id: item.id, name: item.name});
+              results.push({ id: item.id, name: item.name });
             }
             // console.log('results', results);
             resolve(results);

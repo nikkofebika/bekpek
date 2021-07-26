@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, Text} from 'native-base';
-import {openDatabase} from 'react-native-sqlite-storage';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Text } from 'native-base';
+import { openDatabase } from 'react-native-sqlite-storage';
 import Card from '../components/molecules/Card';
-import {deleteData, showLists} from '../database/Lists';
+import { deleteData, showLists } from '../database/Lists';
 
 const db = openDatabase({
   name: 'bekpek',
@@ -23,12 +23,7 @@ const Home = () => {
     setDatas(res);
   };
 
-  const handleDeleteData = () => {
-    alert('id');
-    // await deleteData(id);
-  };
-
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <Card
         name={item.name}
@@ -43,6 +38,7 @@ const Home = () => {
         data={datas}
         renderItem={renderItem}
         keyExtractor={item => item.id}
+        mx={3}
       />
     );
   }
