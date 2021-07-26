@@ -1,9 +1,9 @@
 import db from '../config/db';
 
-export const createTableItems = () => {
+export const createTableListItems = () => {
   db.transaction(tx => {
     tx.executeSql(
-      `CREATE TABLE items (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50))`,
+      `CREATE TABLE list_items (id INTEGER PRIMARY KEY AUTOINCREMENT, list_id INTEGER, item_id INTEGER)`,
       [],
       (sqlTx, res) => {
         console.log('success create table');
@@ -17,7 +17,7 @@ export const createTableItems = () => {
     );
   });
 };
-export const getAllItems = () => {
+export const getAllListItems = () => {
   return new Promise((resolve, reject) => {
     db.transaction(fx => {
       fx.executeSql(
@@ -43,21 +43,19 @@ export const getAllItems = () => {
   });
 };
 
-export const insertAll = () => {
-  const datalist = require('../../dataLists.json');
+export const insertListItems = (listId, items) => {
   return new Promise((resolve, reject) => {
     db.transaction(fx => {
-      datalist.map(name => {
-        console.log(name);
+      items.map(item => {
         fx.executeSql(
-          'INSERT INTO items (name) VALUES (?)',
-          [name],
+          'INSERT INTO list_items (list_id, item_id) VALUES (?,?)',
+          [listId, item],
           (fx, res) => {
-            console.log('res insertAll', res);
+            console.log('res insertListItems', res);
             resolve(res);
           },
           error => {
-            console.log('error db getItems', error.message);
+            console.log('error db insertListItems', error.message);
             reject(error.message);
           },
         );

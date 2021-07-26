@@ -1,9 +1,1 @@
-[
-    {"name": "Anduk"},
-    {"name": "Buku"},
-    {"name": "Semvak"},
-    {"name": "Senter"},
-    {"name": "Lilin"},
-    {"name": "Korek"},
-    {"name": "Beras"},
-];
+["Anduk","Buku","Semvak","Senter","Lilin","Korek","Beras"];

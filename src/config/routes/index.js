@@ -35,26 +35,26 @@ function Routes() {
           <Stack.Screen
             name="Create"
             component={Create}
-            options={({navigation}) => ({
-              headerRight: () => (
-                <HStack>
-                  <TouchableOpacity onPress={() => alert('search')}>
-                    <Icon
-                      ios="ios-search"
-                      android="md-search"
-                      style={{marginRight: 15}}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => alert('created')}>
-                    <Icon
-                      ios="ios-checkmark-circle-outline"
-                      android="md-checkmark-circle-outline"
-                      style={{marginRight: 15, color: 'green'}}
-                    />
-                  </TouchableOpacity>
-                </HStack>
-              ),
-            })}
+            // options={({navigation}) => ({
+            //   headerRight: () => (
+            // <HStack>
+            //   <TouchableOpacity onPress={() => alert('search')}>
+            //     <Icon
+            //       ios="ios-search"
+            //       android="md-search"
+            //       style={{marginRight: 15}}
+            //     />
+            //   </TouchableOpacity>
+            //   <TouchableOpacity onPress={() => alert('created')}>
+            //     <Icon
+            //       ios="ios-checkmark-circle-outline"
+            //       android="md-checkmark-circle-outline"
+            //       style={{marginRight: 15, color: 'green'}}
+            //     />
+            //   </TouchableOpacity>
+            // </HStack>
+            // ),
+            // })}
           />
         </Stack.Navigator>
       </NavigationContainer>

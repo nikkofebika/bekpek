@@ -1,8 +1,8 @@
 import React from 'react';
-import { Alert } from 'react-native';
-import { Text, View, Box, HStack } from 'native-base';
+import {Alert} from 'react-native';
+import {Text, View, Box, HStack} from 'native-base';
 import Icon from '../atoms/Icon';
-const Card = ({ name, handleDeleteList }) => {
+const Card = ({name, handleDeleteList, items}) => {
   return (
     <View my={2}>
       <Box bg="gray.50" borderTopRadius="lg" px={3}>
@@ -10,7 +10,7 @@ const Card = ({ name, handleDeleteList }) => {
           {name}
         </Text>
         <Text py={2}>
-          Deskripsi Deskripsi Deskripsi Deskripsi Deskripsi Deskripsi Deskripsi
+          <Text bold>Barang :</Text>
         </Text>
       </Box>
       <HStack
@@ -30,7 +30,7 @@ const Card = ({ name, handleDeleteList }) => {
                 {
                   text: 'Batal',
                 },
-                { text: 'OK', onPress: handleDeleteList },
+                {text: 'OK', onPress: handleDeleteList},
               ])
             }
           />

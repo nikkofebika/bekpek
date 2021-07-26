@@ -1,6 +1,6 @@
-import db from "../config/db";
+import db from '../config/db';
 
-export const insertList = (name) => {
+export const insertList = name => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
@@ -9,8 +9,8 @@ export const insertList = (name) => {
         (sqlTx, res) => {
           console.log('res', res);
           console.log(`${name} added successfully`);
-          showLists();
-          resolve({ success: true })
+          getAllList();
+          resolve({success: true, data: res});
         },
         error => {
           console.log('error db insert list', error.message);
@@ -18,8 +18,8 @@ export const insertList = (name) => {
         },
       );
     });
-  })
-}
+  });
+};
 export const createTable = () => {
   db.transaction(tx => {
     tx.executeSql(
@@ -37,14 +37,14 @@ export const createTable = () => {
     );
   });
 };
-export const deleteData = id => {
+export const deleteList = id => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
         `DELETE FROM lists WHERE id=?`,
         [id],
         (sqlTx, res) => {
-          showLists();
+          getAllList();
           resolve();
         },
         error => {
@@ -55,27 +55,39 @@ export const deleteData = id => {
     });
   });
 };
-export const showLists = () => {
+export const getAllList = () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       //   tx.executeSql('INSERT INTO lists (name) VALUES ("bantal")');
       tx.executeSql(
-        `SELECT * FROM lists ORDER BY id DESC`,
+        `SELECT lists.id, lists.name as list_name, items.name as item_name FROM lists JOIN list_items li ON li.list_id=lists.id JOIN items ON items.id=li.item_id ORDER BY lists.id DESC`,
         [],
         (sqlTx, res) => {
           let len = res.rows.length;
           if (len > 0) {
             let results = [];
+            // console.log('res.rows.item', res.rows.item);
             for (let i = 0; i < len; i++) {
               const item = res.rows.item(i);
-              results.push({ id: item.id, name: item.name });
+              console.log('item', item);
+              // results = [{list_name: item.list_name}];
+              results.push({
+                list_name: item.list_name,
+                // name: item.name,
+              });
+              //   results[item.id].push({list_name: item.list_name, name: item.name});
+              //   result = cars.reduce(function (r, a) {
+              //     r[a.make] = r[a.make] || [];
+              //     r[a.make].push(a);
+              //     return r;
+              // }, Object.create(null));
             }
-            // console.log('results', results);
+            console.log('results', results);
             resolve(results);
           }
         },
         error => {
-          console.log('error db showLists', error.message);
+          console.log('error db getAllList', error.message);
           reject(error.message);
         },
       );
