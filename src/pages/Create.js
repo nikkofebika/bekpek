@@ -1,23 +1,20 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import {
-  Box,
-  Button,
   Checkbox,
   FlatList,
-  Flex,
   FormControl,
   HStack,
   Input,
   Text,
   VStack,
 } from 'native-base';
-import {getAllItems} from '../database/Items';
-import {TouchableOpacity} from 'react-native';
+import { getAllItems } from '../database/Items';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-ionicons';
-import {insertList} from '../database/Lists';
-import {insertListItems} from '../database/listItems';
+import { insertList } from '../database/Lists';
+import { insertListItems } from '../database/listItems';
 
-const Create = ({navigation}) => {
+const Create = ({ navigation }) => {
   const [listName, setListName] = useState('');
   const [dataItems, setDataItems] = useState([]);
   const [groupValues, setGroupValues] = useState([]);
@@ -30,14 +27,14 @@ const Create = ({navigation}) => {
             <Icon
               ios="ios-search"
               android="md-search"
-              style={{marginRight: 15}}
+              style={{ marginRight: 15 }}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={submitForm}>
             <Icon
               ios="ios-checkmark-circle-outline"
               android="md-checkmark-circle-outline"
-              style={{marginRight: 15, color: 'green'}}
+              style={{ marginRight: 15, color: 'green' }}
             />
           </TouchableOpacity>
         </HStack>
@@ -68,7 +65,6 @@ const Create = ({navigation}) => {
   };
   return (
     <VStack mx={3} my={2}>
-      <Text>{listName}</Text>
       <FormControl isRequired>
         <Input
           p={2}
@@ -85,7 +81,7 @@ const Create = ({navigation}) => {
           width="100%"
           bg="primary.300"
           data={dataItems}
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             return (
               <Checkbox value={item.id} my={2}>
                 {item.name}
@@ -94,7 +90,6 @@ const Create = ({navigation}) => {
           }}
         />
       </Checkbox.Group>
-      <Button onPress={submitForm}>submitForm</Button>
     </VStack>
   );
 };

@@ -10,7 +10,7 @@ export const insertList = name => {
           console.log('res', res);
           console.log(`${name} added successfully`);
           getAllList();
-          resolve({success: true, data: res});
+          resolve({ success: true, data: res });
         },
         error => {
           console.log('error db insert list', error.message);
@@ -20,7 +20,7 @@ export const insertList = name => {
     });
   });
 };
-export const createTable = () => {
+export const createTableList = () => {
   db.transaction(tx => {
     tx.executeSql(
       `CREATE TABLE lists (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50))`,
@@ -66,15 +66,17 @@ export const getAllList = () => {
           let len = res.rows.length;
           if (len > 0) {
             let results = [];
-            // console.log('res.rows.item', res.rows.item);
+            let test = [];
             for (let i = 0; i < len; i++) {
               const item = res.rows.item(i);
               console.log('item', item);
               // results = [{list_name: item.list_name}];
-              results.push({
+              test[item.id] = {
+                id: item.id,
                 list_name: item.list_name,
-                // name: item.name,
-              });
+              }
+              test[item.id]['items'] = [item.item_name];
+              // results.push(test);
               //   results[item.id].push({list_name: item.list_name, name: item.name});
               //   result = cars.reduce(function (r, a) {
               //     r[a.make] = r[a.make] || [];
@@ -82,7 +84,8 @@ export const getAllList = () => {
               //     return r;
               // }, Object.create(null));
             }
-            console.log('results', results);
+            console.log('test', test);
+            // console.log('results', results);
             resolve(results);
           }
         },

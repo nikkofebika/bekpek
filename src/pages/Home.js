@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, Text} from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Text } from 'native-base';
 import Card from '../components/molecules/Card';
-import {deleteList, getAllList} from '../database/Lists';
+import { deleteList, getAllList } from '../database/Lists';
 
 const Home = () => {
   const [datas, setDatas] = useState([]);
@@ -14,7 +14,7 @@ const Home = () => {
     setDatas(res);
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <Card
         name={item.list_name}
