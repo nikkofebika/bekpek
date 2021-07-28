@@ -47,10 +47,10 @@ export const getAllItems = () => {
           if (len > 0) {
             for (let i = 0; i < len; i++) {
               const item = res.rows.item(i);
-              results.push({ id: item.id, name: item.name });
+              results.push({id: item.id, name: item.name});
             }
           }
-          resolve({ success: true, data: results });
+          resolve({success: true, data: results});
         },
         error => {
           console.log('error db getItems', error.message);
@@ -80,6 +80,25 @@ export const insertAll = () => {
           },
         );
       });
+    });
+  });
+};
+
+export const dropTableItems = () => {
+  return new Promise((resolve, reject) => {
+    db.transaction(fx => {
+      fx.executeSql(
+        'DROP TABLE items',
+        [],
+        (fx, res) => {
+          console.log('dropTableItems', res);
+          resolve(res);
+        },
+        error => {
+          console.log('error db dropTableItems', error.message);
+          reject(error.message);
+        },
+      );
     });
   });
 };
