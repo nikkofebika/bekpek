@@ -7,7 +7,7 @@ const Home = () => {
   const [datas, setDatas] = useState([]);
   useEffect(() => {
     getLists();
-  }, []);
+  }, [datas]);
 
   const getLists = async () => {
     const res = await getAllList();
@@ -17,7 +17,7 @@ const Home = () => {
   const renderItem = ({ item }) => {
     return (
       <Card
-        name={item.list_name}
+        data={item}
         handleDeleteList={async () => await deleteList(item.id)}
       />
     );

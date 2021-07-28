@@ -1,5 +1,23 @@
 import db from '../config/db';
 
+export const deleteItem = () => {
+  db.transaction(tx => {
+    tx.executeSql(
+      `DELETE FROM items WHERE ID IN (8,9,10,11,12,13,14)`,
+      [],
+      (sqlTx, res) => {
+        console.log('success delete items');
+        console.log('res', res);
+        console.log('sqlTx', sqlTx);
+      },
+      error => {
+        console.log('error delete items');
+        console.log('error', error.message);
+      },
+    );
+  });
+};
+
 export const createTableItems = () => {
   db.transaction(tx => {
     tx.executeSql(
@@ -29,10 +47,10 @@ export const getAllItems = () => {
           if (len > 0) {
             for (let i = 0; i < len; i++) {
               const item = res.rows.item(i);
-              results.push({id: item.id, name: item.name});
+              results.push({ id: item.id, name: item.name });
             }
           }
-          resolve({success: true, data: results});
+          resolve({ success: true, data: results });
         },
         error => {
           console.log('error db getItems', error.message);

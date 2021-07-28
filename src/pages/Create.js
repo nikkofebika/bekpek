@@ -17,7 +17,7 @@ import { insertListItems } from '../database/listItems';
 const Create = ({ navigation }) => {
   const [listName, setListName] = useState('');
   const [dataItems, setDataItems] = useState([]);
-  const [groupValues, setGroupValues] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -40,7 +40,7 @@ const Create = ({ navigation }) => {
         </HStack>
       ),
     });
-  }, [navigation, listName, groupValues]);
+  }, [navigation, listName, selectedItems]);
 
   useEffect(() => {
     fetchItems();
@@ -59,7 +59,7 @@ const Create = ({ navigation }) => {
   const submitForm = async () => {
     const saveListName = await insertList(listName);
     if (saveListName.success) {
-      await insertListItems(saveListName.data.insertId, groupValues);
+      await insertListItems(saveListName.data.insertId, selectedItems);
       navigation.popToTop();
     }
   };
@@ -75,8 +75,8 @@ const Create = ({ navigation }) => {
       </FormControl>
       <Checkbox.Group
         width="100%"
-        onChange={setGroupValues}
-        value={groupValues}>
+        onChange={setSelectedItems}
+        value={selectedItems}>
         <FlatList
           width="100%"
           bg="primary.300"

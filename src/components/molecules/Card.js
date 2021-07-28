@@ -1,18 +1,23 @@
 import React from 'react';
-import {Alert} from 'react-native';
-import {Text, View, Box, HStack} from 'native-base';
+import { Alert, TouchableOpacity } from 'react-native';
+import { Text, View, Box, HStack } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 import Icon from '../atoms/Icon';
-const Card = ({name, handleDeleteList, items}) => {
+const Card = ({ data, handleDeleteList }) => {
+  const navigation = useNavigation();
+
   return (
     <View my={2}>
-      <Box bg="gray.50" borderTopRadius="lg" px={3}>
-        <Text bold fontSize="lg" py={1}>
-          {name}
-        </Text>
-        <Text py={2}>
-          <Text bold>Barang :</Text>
-        </Text>
-      </Box>
+      <TouchableOpacity onPress={() => navigation.navigate("Detail", { listId: data.id, list_name: data.list_name })}>
+        <Box bg="gray.50" borderTopRadius="lg" px={3}>
+          <Text bold fontSize="lg" py={1}>
+            {data.list_name}
+          </Text>
+          <Text py={2}>
+            <Text bold>Barang : </Text>{data.items.join(", ")}
+          </Text>
+        </Box>
+      </TouchableOpacity>
       <HStack
         alignItems="center"
         justifyContent="space-between"
@@ -22,7 +27,7 @@ const Card = ({name, handleDeleteList, items}) => {
         py={1}>
         <Text fontSize="sm">Sen, 27 Feb 2021</Text>
         <HStack space={3}>
-          <Icon name="create" />
+          <Icon name="create" onPress={() => navigation.navigate('Edit', { listId: data.id, list_name: data.list_name })} />
           <Icon
             name="trash"
             onPress={() =>
@@ -30,7 +35,7 @@ const Card = ({name, handleDeleteList, items}) => {
                 {
                   text: 'Batal',
                 },
-                {text: 'OK', onPress: handleDeleteList},
+                { text: 'OK', onPress: handleDeleteList },
               ])
             }
           />

@@ -21,7 +21,7 @@ export const getAllListItems = () => {
   return new Promise((resolve, reject) => {
     db.transaction(fx => {
       fx.executeSql(
-        'SELECT * FROM items',
+        'SELECT * FROM list_items',
         [],
         (fx, res) => {
           let len = res.rows.length;
@@ -29,10 +29,36 @@ export const getAllListItems = () => {
           if (len > 0) {
             for (let i = 0; i < len; i++) {
               const item = res.rows.item(i);
-              results.push({id: item.id, name: item.name});
+              results.push({ id: item.id, list_id: item.list_id, item_id: item.item_id });
             }
           }
-          resolve({success: true, data: results});
+          resolve({ success: true, data: results });
+        },
+        error => {
+          console.log('error db getItems', error.message);
+          reject(error.message);
+        },
+      );
+    });
+  });
+};
+
+export const getListItemByListId = (listId) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(fx => {
+      fx.executeSql(
+        'SELECT * FROM list_items WHERE list_id=?',
+        [listId],
+        (fx, res) => {
+          let len = res.rows.length;
+          let results = [];
+          if (len > 0) {
+            for (let i = 0; i < len; i++) {
+              const item = res.rows.item(i);
+              results.push({ id: item.id, list_id: item.list_id, item_id: item.item_id });
+            }
+          }
+          resolve({ success: true, data: results });
         },
         error => {
           console.log('error db getItems', error.message);
@@ -46,6 +72,27 @@ export const getAllListItems = () => {
 export const insertListItems = (listId, items) => {
   return new Promise((resolve, reject) => {
     db.transaction(fx => {
+      items.map(item => {
+        fx.executeSql(
+          'INSERT INTO list_items (list_id, item_id) VALUES (?,?)',
+          [listId, item],
+          (fx, res) => {
+            console.log('res insertListItems', res);
+            resolve(res);
+          },
+          error => {
+            console.log('error db insertListItems', error.message);
+            reject(error.message);
+          },
+        );
+      });
+    });
+  });
+};
+export const updateListItems = (listId, items) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(fx => {
+      fx.executeSql('DELETE FROM list_items WHERE list_id=' + listId)
       items.map(item => {
         fx.executeSql(
           'INSERT INTO list_items (list_id, item_id) VALUES (?,?)',
