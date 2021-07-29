@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, Text} from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Text } from 'native-base';
 import Card from '../components/molecules/Card';
 import {
   createTableList,
@@ -12,7 +12,7 @@ import {
   dropTableListItems,
   getAllListItems,
 } from '../database/listItems';
-import {createTableItems, dropTableItems, insertAll} from '../database/Items';
+import { createTableItems, dropTableItems, insertAll } from '../database/Items';
 
 const Home = () => {
   const [datas, setDatas] = useState([]);
@@ -41,7 +41,7 @@ const Home = () => {
     del.success && getLists();
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <Card data={item} handleDeleteList={() => handleDeleteList(item.id)} />
     );
@@ -53,7 +53,6 @@ const Home = () => {
         data={datas}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        mx={3}
       />
     );
   }

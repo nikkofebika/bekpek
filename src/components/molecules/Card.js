@@ -1,13 +1,13 @@
 import React from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
-import { Text, View, Box, HStack } from 'native-base';
+import { Text, View, Box, HStack, VStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import Icon from '../atoms/Icon';
+import { formatDate } from '../../utils/general';
 const Card = ({ data, handleDeleteList }) => {
   const navigation = useNavigation();
-
   return (
-    <View my={2}>
+    <View my={2} mx={3}>
       <TouchableOpacity onPress={() => navigation.navigate("Detail", { listId: data.id, list_name: data.list_name })}>
         <Box bg="gray.50" borderTopRadius="lg" px={3}>
           <Text bold fontSize="lg" py={1}>
@@ -25,7 +25,11 @@ const Card = ({ data, handleDeleteList }) => {
         borderBottomRadius="lg"
         px={3}
         py={1}>
-        <Text fontSize="sm">Sen, 27 Feb 2021</Text>
+        <VStack>
+          <Text fontSize="xs">Dibuat: {formatDate(new Date(data.created))}</Text>
+          {data.updated && <Text fontSize="xs">Diupdate: {formatDate(new Date(data.updated))}</Text>}
+
+        </VStack>
         <HStack space={3}>
           <Icon name="create" onPress={() => navigation.navigate('Edit', { listId: data.id, list_name: data.list_name })} />
           <Icon

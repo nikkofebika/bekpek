@@ -1,4 +1,5 @@
 import db from '../config/db';
+import { getDateNow } from '../utils/general';
 
 export const insertList = name => {
   return new Promise((resolve, reject) => {
@@ -9,7 +10,7 @@ export const insertList = name => {
         (sqlTx, res) => {
           console.log('res', res);
           console.log(`${name} added successfully`);
-          resolve({success: true, data: res});
+          resolve({ success: true, data: res });
         },
         error => {
           console.log('error db insert list', error.message);
@@ -20,14 +21,15 @@ export const insertList = name => {
   });
 };
 export const updateList = data => {
+  let dateNow = getDateNow();
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
-        `UPDATE lists SET name=? WHERE id=?`,
-        [data.name, data.id],
+        `UPDATE lists SET name=?, updated=? WHERE id=?`,
+        [data.name, dateNow, data.id],
         (sqlTx, res) => {
           console.log(`updateList updated successfully`);
-          resolve({success: true, data: res});
+          resolve({ success: true, data: res });
         },
         error => {
           console.log('error db insert list', error.message);
@@ -62,7 +64,7 @@ export const deleteList = id => {
         [id],
         (sqlTx, res) => {
           tx.executeSql('DELETE FROM list_items WHERE list_id=' + id);
-          resolve({success: true});
+          resolve({ success: true });
         },
         error => {
           console.log('error db delete list');
@@ -105,6 +107,8 @@ export const getAllList = () => {
                 o[e] = {
                   id: el.id,
                   list_name: el.list_name,
+                  created: el.created,
+                  updated: el.updated,
                   items: [],
                 };
                 r.push(o[e]);
