@@ -54,7 +54,7 @@ const Edit = ({ route, navigation }) => {
         if (res.success) {
             let items = [];
             res.data.map(i => {
-                items.push(i.item_id)
+                items.push(i.id)
             })
             console.log('selected items', items)
             setSelectedItems(items)

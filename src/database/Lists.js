@@ -87,7 +87,7 @@ export const getAllList = () => {
             let test = [];
             for (let i = 0; i < len; i++) {
               const item = res.rows.item(i);
-              // console.log('item', item);
+              console.log('item', item);
               // results = [{list_name: item.list_name}];
               // test[item.id] = {
               //   id: item.id,

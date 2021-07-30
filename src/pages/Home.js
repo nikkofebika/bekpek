@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text } from 'native-base';
 import Card from '../components/molecules/Card';
+import RNBootSplash from "react-native-bootsplash";
+
 import {
   createTableList,
   deleteList,
@@ -20,14 +22,20 @@ const Home = () => {
     // dropTableItems();
     // dropTableListItems();
     // dropTableLists();
-    // dropTableListItems();
     // createTableListItems();
     // createTableList();
     // createTableItems();
     // console.log('tai');
     // insertAll();
     // getAllListItems();
-    getLists();
+    const init = async () => {
+      getLists();
+    };
+
+    init().finally(async () => {
+      await RNBootSplash.hide({ fade: true });
+      console.log("Bootsplash has been hidden successfully");
+    });
   }, []);
 
   const getLists = async () => {
