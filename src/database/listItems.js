@@ -38,7 +38,7 @@ export const getAllListItems = () => {
             }
           }
           console.log('res getAllListItems', results);
-          resolve({ success: true, data: results });
+          resolve({success: true, data: results});
         },
         error => {
           console.log('error db getItems', error.message);
@@ -53,7 +53,7 @@ export const getListItemByListId = listId => {
   return new Promise((resolve, reject) => {
     db.transaction(fx => {
       fx.executeSql(
-        'SELECT list_items.id, items.name, list_items.returned FROM list_items JOIN items ON items.id=list_items.item_id WHERE list_id = ?',
+        'SELECT list_items.id, items.id as item_id, items.name, list_items.returned FROM list_items JOIN items ON items.id=list_items.item_id WHERE list_id = ?',
         [listId],
         (fx, res) => {
           let len = res.rows.length;
@@ -65,12 +65,13 @@ export const getListItemByListId = listId => {
               item.returned === 1 && total_returned++;
               results.push({
                 id: item.id,
+                item_id: item.item_id,
                 name: item.name,
                 returned: item.returned,
               });
             }
           }
-          resolve({ success: true, data: results, returned: total_returned });
+          resolve({success: true, data: results, returned: total_returned});
         },
         error => {
           console.log('error db getItems', error.message);
@@ -89,6 +90,7 @@ export const insertListItems = (listId, items) => {
           'INSERT INTO list_items (list_id, item_id) VALUES (?,?)',
           [listId, item],
           (fx, res) => {
+            console.log('id item', item);
             console.log('res insertListItems', res);
             resolve(res);
           },
@@ -124,15 +126,15 @@ export const updateListItems = (listId, items) => {
 };
 export const updateReturnListItems = (id, status) => {
   return new Promise((resolve, reject) => {
-    console.log('idid', id)
-    console.log('statusstatus', status)
+    console.log('idid', id);
+    console.log('statusstatus', status);
     db.transaction(fx => {
       fx.executeSql(
         'UPDATE list_items SET returned = ? WHERE id = ?',
         [status, id],
         (fx, res) => {
           console.log('res updateReturnListItems', res);
-          resolve({ success: true });
+          resolve({success: true});
         },
         error => {
           console.log('error db insertListItems', error.message);
